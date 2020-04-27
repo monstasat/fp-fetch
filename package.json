@@ -1,0 +1,102 @@
+{
+  "name": "fp-fetch",
+  "version": "0.0.1",
+  "description": "Functional style, non-throwing fetch utils",
+  "files": [
+    "lib"
+  ],
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/monstasat/fp-fetch.git"
+  },
+  "author": "Alexander Yanin <monstasat@yandex.ru>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/monstasat/fp-fetch/issues"
+  },
+  "homepage": "https://github.com/monstasat/fp-fetch#readme",
+  "scripts": {
+    "lint": "eslint 'src/**/*.ts'",
+    "build": "tsc -p ./tsconfig.json",
+    "commit": "git-cz",
+    "prepare": "npm run build",
+    "precommit": "lint-staged"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "lint-staged": {
+    "{src,test}/**/*.ts": [
+      "git add"
+    ]
+  },
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "ts-jest"
+    },
+    "testEnvironment": "node",
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/test/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 95,
+        "lines": 95,
+        "statements": 95
+      }
+    },
+    "collectCoverageFrom": [
+      "src/*.{js,ts}"
+    ]
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "peerDependencies": {
+    "fp-ts": "^2.5.4"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^7.1.2",
+    "@commitlint/config-conventional": "^7.1.2",
+    "@types/jest": "^23.3.2",
+    "@types/node": "^10.11.0",
+    "@typescript-eslint/eslint-plugin": "^2.29.0",
+    "@typescript-eslint/parser": "^2.29.0",
+    "commitizen": "^3.1.2",
+    "coveralls": "^3.0.2",
+    "cz-conventional-changelog": "^3.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "fp-ts": "^2.5.4",
+    "husky": "^1.0.1",
+    "jest": "^23.6.0",
+    "jest-config": "^23.6.0",
+    "lint-staged": "^8.0.0",
+    "ts-jest": "^23.10.2",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.0.3"
+  },
+  "keywords": [
+    "fetch-api",
+    "typescript",
+    "functional-programming",
+    "fp-ts"
+  ],
+  "dependencies": {}
+}
