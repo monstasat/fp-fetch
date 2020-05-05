@@ -15,7 +15,7 @@ import {
 } from './parser';
 
 /** Type of native fetch method */
-export type Fetch = (
+export type NativeFetch = (
   input: RequestInfo,
   init?: RequestInit
 ) => Promise<Response>;
@@ -30,7 +30,7 @@ export type FpFetch<E, A> = (
 export type FpFetchOptions<E, A> = {
   errorParser: Parser<E>;
   parser: Parser<A>;
-  fetch?: Fetch;
+  fetch?: NativeFetch;
 };
 
 function onSuccess<E, T>(
