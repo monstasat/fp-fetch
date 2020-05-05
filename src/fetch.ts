@@ -25,14 +25,14 @@ export type NativeFetch = (
 ) => Promise<Response>;
 
 /**
- * `FetchTask<E, A>` represents asynchronous computation that either yields a value
+ * `FetchTask<E, A>` represents an asynchronous computation that either yields a value
  * of type `A` or fails yielding an error of type `FetchError<E>`
  */
 export type FetchTask<E, A> = TaskEither<FetchError<E>, A>;
 
 export type FetchResult<E, A> = Either<FetchError<E>, A>;
 
-/** Type of functional fetch wrapper */
+/** Type of a functional fetch wrapper */
 export type Fetch<E, A> = (
   input: RequestInfo,
   init?: RequestInit
