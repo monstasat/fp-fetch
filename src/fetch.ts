@@ -1,6 +1,10 @@
 import {
-  tryCatch, chain, left, TaskEither
+  TaskEither,
+  tryCatch,
+  chain,
+  left
 } from 'fp-ts/lib/TaskEither';
+import { Either } from 'fp-ts/lib/Either';
 import { pipe } from 'fp-ts/lib/pipeable';
 
 import {
@@ -20,14 +24,22 @@ export type NativeFetch = (
   init?: RequestInit
 ) => Promise<Response>;
 
+/**
+ * `FetchTask<E, A>` represents asynchronous computation that either yields a value
+ * of type `A` or fails yielding an error of type `FetchError<E>`
+ */
+export type FetchTask<E, A> = TaskEither<FetchError<E>, A>;
+
+export type FetchResult<E, A> = Either<FetchError<E>, A>;
+
 /** Type of functional fetch wrapper */
-export type FpFetch<E, A> = (
+export type Fetch<E, A> = (
   input: RequestInfo,
   init?: RequestInit
-) => TaskEither<FetchError<E>, A>;
+) => FetchTask<E, A>;
 
 /** Options for custom fetch function creation */
-export type FpFetchOptions<E, A> = {
+export type FetchOptions<E, A> = {
   errorParser: Parser<E>;
   parser: Parser<A>;
   fetch?: NativeFetch;
@@ -67,11 +79,11 @@ function onFailure<E, T>(
  * Custom fetch helper creator
  */
 export function fetchCustom<E, A>(
-  options: FpFetchOptions<E, A>
-): FpFetch<E, A> {
+  options: FetchOptions<E, A>
+): Fetch<E, A> {
   const { errorParser, parser, fetch = globalThis.fetch } = options;
 
-  return (url: RequestInfo, init?: RequestInit): TaskEither<FetchError<E>, A> => pipe(
+  return (url: RequestInfo, init?: RequestInit): FetchTask<E, A> => pipe(
     tryCatch(
       async () => fetch(url, init),
       (error) => new NetworkError((error as Error).message)
@@ -90,7 +102,7 @@ export function fetchCustom<E, A>(
 export function fetchRaw(
   url: RequestInfo,
   init?: RequestInit
-): TaskEither<FetchError<Response>, Response> {
+): FetchTask<Response, Response> {
   return fetchCustom({
     parser: rawParser,
     errorParser: rawParser
@@ -103,7 +115,7 @@ export function fetchRaw(
 export function fetchJSON<E, T>(
   url: RequestInfo,
   init?: RequestInit
-): TaskEither<FetchError<E>, T> {
+): FetchTask<E, T> {
   return fetchCustom<E, T>({
     parser: jsonParser,
     errorParser: jsonParser
@@ -116,7 +128,7 @@ export function fetchJSON<E, T>(
 export function fetchText(
   url: RequestInfo,
   init?: RequestInit
-): TaskEither<FetchError<string>, string> {
+): FetchTask<string, string> {
   return fetchCustom({
     parser: textParser,
     errorParser: textParser
@@ -130,7 +142,7 @@ export function fetchText(
 export function fetchVoid(
   url: RequestInfo,
   init?: RequestInit
-): TaskEither<FetchError<void>, void> {
+): FetchTask<void, void> {
   return fetchCustom({
     parser: voidParser,
     errorParser: voidParser
