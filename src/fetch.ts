@@ -52,9 +52,14 @@ function onFailure<E, T>(
       async () => parser(response).then(
         (body) => new ResponseError(response.statusText, response.status, body)
       ),
-      (error) => new ParserError((error as Error).message)
+      (error) => new ResponseError(
+        response.statusText,
+        response.status,
+        null as E | null,
+        new ParserError((error as Error).message)
+      )
     ),
-    chain((e) => left<ParserError | ResponseError<E>>(e))
+    chain((e) => left<ResponseError<E>>(e))
   );
 }
 

@@ -24,16 +24,16 @@ export class ParserError extends Error {
  * is not equal to 200 (OK)
  */
 export class ResponseError<E = never> extends Error {
-  public readonly body?: E;
+  public readonly body: E | null;
 
-  public readonly bodyParseError?: ParserError;
+  public readonly bodyParseError: ParserError | null;
 
   public readonly status: number;
 
   public constructor(
     message = '',
     status: number,
-    body?: E,
+    body: E | null,
     parserError?: ParserError
   ) {
     super(message);
@@ -42,7 +42,7 @@ export class ResponseError<E = never> extends Error {
 
     this.body = body;
 
-    this.bodyParseError = parserError;
+    this.bodyParseError = parserError ?? null;
   }
 }
 
