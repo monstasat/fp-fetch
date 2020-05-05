@@ -23,7 +23,8 @@
     "build": "tsc -p ./tsconfig.json",
     "commit": "git-cz",
     "prepare": "npm run build",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "release": "release-it"
   },
   "config": {
     "commitizen": {
@@ -67,6 +68,11 @@
       "@commitlint/config-conventional"
     ]
   },
+  "release-it": {
+    "hooks": {
+      "after:bump": "auto-changelog -p"
+    }
+  },
   "peerDependencies": {
     "fp-ts": "^2.5.4"
   },
@@ -77,6 +83,7 @@
     "@types/node": "^10.11.0",
     "@typescript-eslint/eslint-plugin": "^2.29.0",
     "@typescript-eslint/parser": "^2.29.0",
+    "auto-changelog": "2.0.0",
     "commitizen": "^3.1.2",
     "coveralls": "^3.0.2",
     "cz-conventional-changelog": "^3.1.0",
@@ -88,6 +95,7 @@
     "jest": "^23.6.0",
     "jest-config": "^23.6.0",
     "lint-staged": "^8.0.0",
+    "release-it": "13.5.8",
     "ts-jest": "^23.10.2",
     "ts-node": "^7.0.1",
     "typescript": "^3.0.3"
