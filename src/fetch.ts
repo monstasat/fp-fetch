@@ -71,9 +71,10 @@ export function fetchCustom<E, A>(
       async () => fetch(url, init),
       (error) => new NetworkError((error as Error).message)
     ),
-    chain((response: Response) => (response.ok
-      ? onSuccess(response, parser)
-      : onFailure(response, errorParser)))
+    chain((response: Response) => (
+      response.ok
+        ? onSuccess(response, parser)
+        : onFailure(response, errorParser)))
   );
 }
 

@@ -2,14 +2,45 @@
 
 Functional style, non-throwing utils for data fetching
 
-### Usage
+## Installation
 
-TODO
+To install the stable version:
 
-### Features
+```bash
+npm install fp-fetch
+```
 
-TODO
+## Usage
 
-### Importing library
+### Basic example
 
-TODO
+```typescript
+import { isLeft } from 'fp-ts/lib/Either';
+import {
+  NetworkError,
+  ParserError,
+  ResponseError,
+  fetchJSON
+} from 'fp-fetch';
+
+const result = await fetchJSON('http://example.com')();
+
+if (isLeft(result)) {
+  // handle error here
+  const { left: error } = result;
+  if (error instanceof NetworkError) {
+    console.log(`network error occured, message=${error.message}`);
+  }
+  if (error instanceof ParserError) {
+    console.log(`parser error occured, message=${error.message}`);
+  }
+  if (error instanceof ResponseError) {
+    const { message, body } = error;
+    console.log(`response error occured, message=${message}, body=${body}`);
+  }
+} else {
+  // handle ok here
+  const { right: payload } = result;
+  console.log(`got ok response, payload=${payload}`);
+};
+```
